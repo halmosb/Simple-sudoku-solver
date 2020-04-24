@@ -5,6 +5,8 @@ using namespace std;
 
 void printTable(vector<vector<char>> &tabl);
 bool possible(vector<vector<char>> &tabl, char val, int x, int y);
+void solve(vector<vector<char>> &tabl);
+
 
 int main(){
     cout << std::boolalpha; // To write the bool values as string to the standard output
@@ -20,12 +22,13 @@ int main(){
         {' ',' ',' ','7',' ','3',' ',' ',' '},
         {'2',' ',' ',' ','5',' ',' ',' ','6'}
         };
-    
+
 
 
     printTable(sudoku);
+    cout<<endl;
 
-
+    solve(sudoku);
     cout<<endl<<endl;
     return 0;
 }
@@ -80,4 +83,33 @@ bool possible(vector<vector<char>> &tabl, char val, int x, int y){
     } else{
         return false;
     }
+}
+
+void solve(vector<vector<char>> &tabl){
+    bool swap = true;
+    while(swap){
+        swap = false;
+        for(int i = 0; i < tabl.size(); i++){
+            for(int j = 0; j < tabl[0].size(); j++){
+                if(tabl[i][j] == ' '){
+                    vector<char> nums = {'1','2','3','4','5','6','7','8','9'};
+                    int possibles = 0;
+                    char possible_num;
+                    for(char num : nums){
+                        if (possible(tabl, num, i, j)){
+                            possibles++;
+                            possible_num = num;
+                        } 
+                    }
+                    if(possibles == 1){
+                        if(tabl[j][i] == ' '){
+                        tabl[j][i] = possible_num;
+                        swap = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    printTable(tabl);
 }
